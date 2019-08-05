@@ -99,6 +99,7 @@ platform_posix_source = 'src/borg/platform/posix.pyx'
 platform_linux_source = 'src/borg/platform/linux.pyx'
 platform_darwin_source = 'src/borg/platform/darwin.pyx'
 platform_freebsd_source = 'src/borg/platform/freebsd.pyx'
+platform_windows_source = 'src/borg/platform/windows.pyx'
 
 cython_sources = [
     compress_source,
@@ -112,6 +113,7 @@ cython_sources = [
     platform_linux_source,
     platform_freebsd_source,
     platform_darwin_source,
+    platform_windows_source,
 ]
 
 if cythonize:
@@ -201,6 +203,7 @@ if not on_rtd:
     linux_ext = Extension('borg.platform.linux', [platform_linux_source], libraries=['acl'])
     freebsd_ext = Extension('borg.platform.freebsd', [platform_freebsd_source])
     darwin_ext = Extension('borg.platform.darwin', [platform_darwin_source])
+    windows_ext = Extension('borg.platform.windows', [platform_windows_source])
 
     if not sys.platform.startswith(('win32', )):
         ext_modules.append(posix_ext)
@@ -210,6 +213,8 @@ if not on_rtd:
         ext_modules.append(freebsd_ext)
     elif sys.platform == 'darwin':
         ext_modules.append(darwin_ext)
+    elif sys.platform == 'win32':
+        ext_modules.append(windows_ext)
 
     # sometimes there's no need to cythonize
     # this breaks chained commands like 'clean sdist'
