@@ -4,6 +4,7 @@ import socket
 import uuid
 
 from borg.helpers import truncate_and_unlink
+from borg.logger import create_logger
 
 """
 platform base module
@@ -22,6 +23,8 @@ API_VERSION = '1.2_05'
 fdatasync = getattr(os, 'fdatasync', os.fsync)
 
 from .xattr import ENOATTR
+
+logger = create_logger(__name__)
 
 
 def listxattr(path, *, follow_symlinks=False):
@@ -94,6 +97,10 @@ def get_flags(path, st, fd=None):
 
 
 def sync_dir(path):
+    if os.name == 'nt':
+        # Opening directories is not supported on windows.
+        # TODO: do we need to handle this in some other way?
+        return
     fd = os.open(path, os.O_RDONLY)
     try:
         os.fsync(fd)
@@ -283,3 +290,22 @@ def process_alive(host, pid, thread):
 def local_pid_alive(pid):
     """Return whether *pid* is alive."""
     raise NotImplementedError
+
+
+def get_free_space(path):
+    if os.name != 'nt':
+        try:
+            st_vfs = os.statvfs(path)
+        except OSError as os_error:
+            logger.warning('Failed to check free space before committing: ' + str(os_error))
+            return
+        except AttributeError:
+            # TODO move the call to statvfs to platform
+            logger.warning('Failed to check free space before committing: no statvfs method available')
+            return
+        # f_bavail: even as root - don't touch the Federal Block Reserve!
+        free_space = st_vfs.f_bavail * st_vfs.f_frsize
+    else:
+        import shutil
+        free_space = shutil.disk_usage(path).free
+    return free_space

@@ -18,6 +18,7 @@ src/borg/_version.py
 *.egg-info
 *.pyc
 *.so
+*.pyd
 .idea/
 .cache/
 borg.build/

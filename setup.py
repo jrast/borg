@@ -60,7 +60,9 @@ system_prefix_libzstd = os.environ.get('BORG_LIBZSTD_PREFIX')
 prefer_system_libxxhash = not bool(os.environ.get('BORG_USE_BUNDLED_XXHASH'))
 system_prefix_libxxhash = os.environ.get('BORG_LIBXXHASH_PREFIX')
 
+# Number of threads to use for cythonize, not used on windows
 cpu_threads = multiprocessing.cpu_count() if multiprocessing else 1
+
 
 # Are we building on ReadTheDocs?
 on_rtd = os.environ.get('READTHEDOCS')
@@ -216,12 +218,14 @@ if not on_rtd:
 
     if cythonize and cythonizing:
         cython_opts = dict(
-            # compile .pyx extensions to .c in parallel
-            nthreads=cpu_threads + 1,
             # default language_level will be '3str' starting from Cython 3.0.0,
             # but old cython versions (< 0.29) do not know that, thus we use 3 for now.
             compiler_directives={'language_level': 3},
         )
+        if os.name != 'nt':
+            # compile .pyx extensions to .c in parallel, does not work on windows
+            cython_opts['nthreads'] = cpu_threads + 1
+
         cythonize([posix_ext, linux_ext, freebsd_ext, darwin_ext], **cython_opts)
         ext_modules = cythonize(ext_modules, **cython_opts)
 
