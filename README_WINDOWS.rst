@@ -11,9 +11,15 @@ Build Requirements
 What's working
 --------------
 
+.. note::
+   The following examples assume that the `BORG_REPO` and `BORG_PASSPHRASE` environment variables are set
+   if the repo or passphrase is not explicitly given.
+
 - Borg does not crash if called with ``borg``
-- ``borg init --encryption none ./demoRepo`` runs without an error/warning.
-   Note that only relative paths work at the moment.
-
-
-
+- ``borg init --encryption repokey-blake2 ./demoRepo`` runs without an error/warning.
+  Note that absolute paths only work if the protocol is explicitly set to file://
+- ``borg create ::backup-{now} D:\DemoData`` works as expected.
+- ``borg list`` works as expected.
+- ``borg extract --strip-components 1 ::backup-XXXX`` works. It's important to
+  pass ``--strip-components 1`` as otherwise the data is restored to the
+  original location.
