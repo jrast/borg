@@ -1,0 +1,31 @@
+version: '{build}'
+
+environment:
+  global:
+    BORG_USE_BUNDLED_B2: YES    
+    BORG_USE_BUNDLED_LZ4: YES    
+    BORG_USE_BUNDLED_ZSTD: YES    
+    BORG_USE_BUNDLED_XXHASH: YES
+  
+  matrix:
+    - PYTHON: C:\Python36-x64
+      BORG_OPENSSL_PREFIX: C:\OpenSSL-v111-Win64
+
+    - PYTHON: C:\Python37-x64
+      BORG_OPENSSL_PREFIX: C:\OpenSSL-v111-Win64
+
+    - PYTHON: C:\Python36
+      BORG_OPENSSL_PREFIX: C:\OpenSSL-v111-Win32
+
+    - PYTHON: C:\Python37
+      BORG_OPENSSL_PREFIX: C:\OpenSSL-v111-Win32
+
+
+# Scripts that run after cloning the repository
+install:
+  # We need wheel and cython to build borg
+  - "%PYTHON%/python.exe -m pip install wheel cython"
+
+build_script:
+- cmd: >-
+    %PYTHON%/python.exe setup.py bdist_wheel
