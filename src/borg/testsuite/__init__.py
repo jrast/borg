@@ -102,6 +102,9 @@ def are_fifos_supported():
             pass
         except NotImplementedError:
             pass
+        # On windows mkfifo is not available and raises an AttributeError.
+        except AttributeError:
+            pass
         return False
 
 
