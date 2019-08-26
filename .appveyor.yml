@@ -28,10 +28,10 @@ artifacts:
 # Scripts that run after cloning the repository
 install:
   # We need wheel and cython to build borg
-  - "%PYTHON%\python.exe -m pip install wheel cython pyinstaller"
+  - "%PYTHON%/python.exe -m pip install wheel cython pyinstaller"
 
 build_script:
 - cmd: >-
-    %PYTHON%\python.exe setup.py bdist_wheel
+    %PYTHON%/python.exe setup.py bdist_wheel
 
-    %PYTHON%\Scripts\pyinstaller.exe scripts/borg.exe.spec
+    %PYTHON%/Scripts/pyinstaller.exe scripts/borg.exe.spec
