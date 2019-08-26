@@ -36,4 +36,6 @@ build_script:
 
     %PYTHON%/python.exe -m pip install -e .
 
+    %PYTHON%/python.exe setup.py build_ext --inplace
+
     %PYTHON%/Scripts/pyinstaller.exe scripts/borg.exe.spec
