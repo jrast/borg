@@ -20,12 +20,18 @@ environment:
     - PYTHON: C:\Python37
       BORG_OPENSSL_PREFIX: C:\OpenSSL-v111-Win32
 
+# Build artifacts: all wheel and exe files in the dist folder
+artifacts:
+  - path: 'dist\*.whl'
+  - path: 'dist\*.exe'
 
 # Scripts that run after cloning the repository
 install:
   # We need wheel and cython to build borg
-  - "%PYTHON%/python.exe -m pip install wheel cython"
+  - "%PYTHON%/python.exe -m pip install wheel cython pyinstaller"
 
 build_script:
 - cmd: >-
     %PYTHON%/python.exe setup.py bdist_wheel
+
+    %PYTHON%/python.exe -m pyinstaller scripts/borg.exe.spec
