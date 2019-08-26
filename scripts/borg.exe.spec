@@ -51,7 +51,7 @@ exe = EXE(pyz,
           upx=True,
           console=True)
 
-if False:
+if True:
     # Enable this block to build a directory-based binary instead of
     # a packed single file. This allows one to easily look at all included
     # files (e.g. without having to strace or halt the built binary
