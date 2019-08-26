@@ -34,4 +34,6 @@ build_script:
 - cmd: >-
     %PYTHON%/python.exe setup.py bdist_wheel
 
+    %PYTHON%/python.exe -m pip install -e .
+
     %PYTHON%/Scripts/pyinstaller.exe scripts/borg.exe.spec
