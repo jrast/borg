@@ -42,8 +42,9 @@ install:
 
 build_script:
 - cmd: >-
+    SET PATH=%BORG_OPENSSL_PREFIX%;%PATH%
 
-    ./borg-env/Script/activate 
+    borg-env/Script/activate 
     
     python.exe -m pip install -e .
 
