@@ -35,7 +35,7 @@ install:
   - "%PYTHON%/python.exe -m pip install wheel cython pyinstaller"
 
 build_script:
-  - cmd: >-
+- cmd: >-
     ECHO %PATH%
 
     %PYTHON%/python.exe setup.py bdist_wheel
