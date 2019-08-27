@@ -7,7 +7,8 @@ REM git clone --branch=win10-cibuild https://github.com/jrast/borg.git %BUILD_DI
 REM pushd %BUILD_DIR%
 
 REM Build Configuration for Borg.
-set BORG_OPENSSL_PREFIX=C:\OpenSSL-v111-Win64
+REM The openssl version is defined in the .appveyor file.
+REM set BORG_OPENSSL_PREFIX=C:\OpenSSL-v111-Win64
 set BORG_USE_BUNDLED_B2=YES
 set BORG_USE_BUNDLED_LZ4=YES
 set BORG_USE_BUNDLED_ZSTD=YES
@@ -22,6 +23,8 @@ REM Install development and build requirements
 pip install -r requirements.d/development.txt
 pip install wheel pyinstaller
 
+REM If libcrypto is not copied to the project root, the dll is not included
+REM in the pyinstaller package. This seems to be a appveyor issue.
 copy %BORG_OPENSSL_PREFIX%\bin\libcrypto* .\
 
 REM Build the extensions inplace
