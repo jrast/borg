@@ -32,15 +32,19 @@ install:
   # OpenSSL must be in the path, otherwise libcrypto cannot be found.
   - SET PATH=%BORG_OPENSSL_PREFIX%;%PATH%
   # We need wheel and cython to build borg and pyinstaller to create the executable.
-  - "%PYTHON%/python.exe -m pip install wheel cython pyinstaller"
+  - "%PYTHON%/python.exe -m venv borg-env"
+  # Activate the virutalenv
+  - "./borg-env/Scripts/activate"
+  # Install the dependencies. Beside the development requirements, wheel and pyinstaller is required
+  - "pip install -r requirements.d/development.txt"
+  - "pip install -U wheel pyinstaller"
+
 
 build_script:
 - cmd: >-
-    ECHO %PATH%
+    %PYTHON%/python.exe -m pip install -e .
 
     %PYTHON%/python.exe setup.py bdist_wheel
-
-    %PYTHON%/python.exe -m pip install -e .
 
     %PYTHON%/python.exe setup.py build_ext --inplace
 
