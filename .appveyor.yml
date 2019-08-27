@@ -24,9 +24,6 @@ environment:
 artifacts:
   - path: 'dist\*.whl'
   - path: 'dist\*.exe'
-  - path: dist
-  - path: build
-
 
 build_script:
 - cmd: scripts\win-clean-build.bat
