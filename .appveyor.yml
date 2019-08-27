@@ -44,12 +44,16 @@ build_script:
 - cmd: >-
     SET PATH=%BORG_OPENSSL_PREFIX%;%PATH%
 
+    ECHO %PATH%
+
     call borg-env\Scripts\activate.bat
     
-    python.exe -m pip install -e .
-
     python.exe setup.py build_ext --inplace
 
-    python.exe setup.py bdist_wheel    
+    python.exe -m pip install -e .
+
+    python.exe setup.py bdist_wheel 
+    
+    ECHO %PATH%
 
     pyinstaller.exe scripts/borg.exe.spec
