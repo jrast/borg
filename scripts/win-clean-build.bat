@@ -31,5 +31,5 @@ REM Install package (to ensure install_requires are installed)
 pip install -e .
 
 REM Build wheel and single file executable
-python setup.py build_wheel
+python setup.py bdist_wheel
 pyinstaller -y scripts/borg.exe.spec
