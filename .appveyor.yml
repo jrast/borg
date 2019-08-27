@@ -29,11 +29,15 @@ artifacts:
 
 # Scripts that run after cloning the repository
 install:
-  # We need wheel and cython to build borg
+  # OpenSSL must be in the path, otherwise libcrypto cannot be found.
+  - SET %PATH%=%BORG_OPENSSL_PREFIX%;%PATH%
+  # We need wheel and cython to build borg and pyinstaller to create the executable.
   - "%PYTHON%/python.exe -m pip install wheel cython pyinstaller"
 
 build_script:
-- cmd: >-
+  - cmd: >-
+    ECHO %PATH%
+
     %PYTHON%/python.exe setup.py bdist_wheel
 
     %PYTHON%/python.exe -m pip install -e .
