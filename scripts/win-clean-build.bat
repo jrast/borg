@@ -1,3 +1,4 @@
+@ECHO ON
 REM set BUILD_DIR=..\borg-clean
 REM set PYTHON=D:\Python37-x64
 
