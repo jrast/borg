@@ -20,6 +20,8 @@ set BORG_USE_BUNDLED_ZSTD=YES
 set BORG_USE_BUNDLED_XXHASH=YES
 set PATH=%PATH%;%BORG_OPENSSL_PREFIX%
 
+dir %BORG_OPENSSL_PREFIX%\bin
+
 python setup.py build_ext --inplace
 pip install -e .
 pyinstaller -y scripts/borg.exe.spec
