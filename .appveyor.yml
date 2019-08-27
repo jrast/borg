@@ -42,10 +42,13 @@ install:
 
 build_script:
 - cmd: >-
-    %PYTHON%/python.exe -m pip install -e .
 
-    %PYTHON%/python.exe setup.py bdist_wheel
+    ./borg-env/Script/activate 
+    
+    python.exe -m pip install -e .
 
-    %PYTHON%/python.exe setup.py build_ext --inplace
+    python.exe setup.py bdist_wheel
 
-    %PYTHON%/Scripts/pyinstaller.exe scripts/borg.exe.spec
+    python.exe setup.py build_ext --inplace
+
+    pyinstaller.exe scripts/borg.exe.spec
