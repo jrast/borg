@@ -22,9 +22,14 @@ set PATH=%PATH%;%BORG_OPENSSL_PREFIX%
 
 dir %BORG_OPENSSL_PREFIX%\bin
 
+copy %BORG_OPENSSL_PREFIX%\bin\libcrypto* .\
+
 python setup.py build_ext --inplace
 pip install -e .
 pyinstaller -y scripts/borg.exe.spec
+
+
+copy %BORG_OPENSSL_PREFIX%\bin\libcrypto* .\dist\
 
 popd
 deactivate
