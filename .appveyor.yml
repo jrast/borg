@@ -27,33 +27,6 @@ artifacts:
   - path: dist
   - path: build
 
-# Scripts that run after cloning the repository
-install:
-  # OpenSSL must be in the path, otherwise libcrypto cannot be found.
-  - SET PATH=%BORG_OPENSSL_PREFIX%;%PATH%
-  # We need wheel and cython to build borg and pyinstaller to create the executable.
-  - "%PYTHON%/python.exe -m venv borg-env"
-  # Activate the virutalenv
-  - "./borg-env/Scripts/activate"
-  # Install the dependencies. Beside the development requirements, wheel and pyinstaller is required
-  - "pip install -r requirements.d/development.txt"
-  - "pip install -U wheel pyinstaller"
-
 
 build_script:
-- cmd: >-
-    SET PATH=%BORG_OPENSSL_PREFIX%;%PATH%
-
-    ECHO %PATH%
-
-    call borg-env\Scripts\activate.bat
-    
-    python.exe setup.py build_ext --inplace
-
-    python.exe -m pip install -e .
-
-    python.exe setup.py bdist_wheel 
-    
-    ECHO %PATH%
-
-    pyinstaller.exe scripts/borg.exe.spec
+- cmd: scripts\win-clean-build.bat
